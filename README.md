@@ -1,3 +1,2 @@
 # DailyStatusReport
-DailyStatusRepost
-Make a DailyStatusRepost
+Make a DailyStatusReport
