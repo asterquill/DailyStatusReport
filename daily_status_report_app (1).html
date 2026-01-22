@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Daily Status Report</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #eaf6fb;
+      --card: #ffffff;
+      --primary: #6bb7db;
+      --primary-dark: #4fa3c7;
+      --text: #1f2d3d;
+      --border: #d7ecf6;
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      margin: 0;
+      background: linear-gradient(135deg, #eaf6fb, #dff2fa);
+      padding: 30px;
+      color: var(--text);
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: auto;
+      background: var(--card);
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    }
+
+    h1 {
+      text-align: center;
+      color: var(--primary-dark);
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #666;
+      margin-bottom: 30px;
+      font-size: 14px;
+    }
+
+    h2 {
+      margin-top: 30px;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 6px;
+      color: var(--primary-dark);
+      font-weight: 500;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: 500;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 12px;
+      margin-top: 6px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      font-size: 14px;
+      outline: none;
+    }
+
+    input:focus, textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(107,183,219,0.2);
+    }
+
+    textarea {
+      min-height: 90px;
+      resize: vertical;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .buttons {
+      margin-top: 30px;
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+    }
+
+    button {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 25px;
+      background: var(--primary);
+      color: white;
+      font-size: 15px;
+      cursor: pointer;
+      transition: 0.2s ease;
+      font-weight: 500;
+    }
+
+    button:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+    }
+
+    .report {
+      margin-top: 40px;
+      padding: 25px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: #f9fdff;
+    }
+
+    .report h2 {
+      border: none;
+      color: var(--primary-dark);
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .report p {
+      line-height: 1.6;
+      margin: 6px 0;
+    }
+
+    .section {
+      margin-top: 20px;
+    }
+
+    .footer {
+      margin-top: 40px;
+      text-align: center;
+      font-size: 13px;
+      color: #777;
+    }
+
+    @media (max-width: 700px) {
+      .row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Daily Status Report</h1>
+    <div class="subtitle">Simple daily reporting for your business</div>
+
+    <h2>Project Information</h2>
+    <div class="row">
+      <div>
+        <label>Date</label>
+        <input id="date" type="date" />
+      </div>
+      <div>
+        <label>Project / Job Name</label>
+        <input id="project" type="text" placeholder="Example: Generator Inspection" />
+      </div>
+    </div>
+
+    <label>Location</label>
+    <input id="location" type="text" placeholder="Example: Nampa, ID" />
+
+    <h2>Safety</h2>
+    <label>Safety Topics / Notes</label>
+    <textarea id="safety" placeholder="Enter safety meeting topics or hazards discussed..."></textarea>
+
+    <h2>Work</h2>
+    <label>Work Completed (Last 24 Hours)</label>
+    <textarea id="completed" placeholder="List what was completed today..."></textarea>
+
+    <label>Work Scheduled (Next 24 Hours)</label>
+    <textarea id="scheduled" placeholder="List what is planned for tomorrow..."></textarea>
+
+    <h2>Issues</h2>
+    <label>Issues / Technical Comments</label>
+    <textarea id="issues" placeholder="Any problems, delays, or concerns..."></textarea>
+
+    <h2>Personnel</h2>
+    <div class="row">
+      <div>
+        <label>Your Name</label>
+        <input id="name" type="text" placeholder="Your full name" />
+      </div>
+      <div>
+        <label>Your Title</label>
+        <input id="title" type="text" placeholder="Your job title" />
+      </div>
+    </div>
+
+    <div class="buttons">
+      <button onclick="generateReport()">Generate Report</button>
+      <button onclick="window.print()">Print / Save as PDF</button>
+    </div>
+
+    <div class="report" id="report"></div>
+
+    <div class="footer">Daily Status Report App</div>
+  </div>
+
+  <script>
+    // Auto set today's date
+    document.getElementById('date').valueAsDate = new Date();
+
+    function generateReport() {
+      const date = document.getElementById('date').value;
+      const project = document.getElementById('project').value;
+      const location = document.getElementById('location').value;
+      const safety = document.getElementById('safety').value;
+      const completed = document.getElementById('completed').value;
+      const scheduled = document.getElementById('scheduled').value;
+      const issues = document.getElementById('issues').value;
+      const name = document.getElementById('name').value;
+      const title = document.getElementById('title').value;
+
+      document.getElementById('report').innerHTML = `
+        <h2>DAILY STATUS REPORT</h2>
+
+        <p><strong>Date:</strong> ${date}</p>
+        <p><strong>Project:</strong> ${project}</p>
+        <p><strong>Location:</strong> ${location}</p>
+
+        <div class="section">
+          <h3>Safety</h3>
+          <p>${safety.replace(/\n/g, '<br>')}</p>
+        </div>
+
+        <div class="section">
+          <h3>Work Completed (Last 24 Hours)</h3>
+          <p>${completed.replace(/\n/g, '<br>')}</p>
+        </div>
+
+        <div class="section">
+          <h3>Work Scheduled (Next 24 Hours)</h3>
+          <p>${scheduled.replace(/\n/g, '<br>')}</p>
+        </div>
+
+        <div class="section">
+          <h3>Issues / Technical Comments</h3>
+          <p>${issues.replace(/\n/g, '<br>')}</p>
+        </div>
+
+        <div class="section">
+          <p><strong>Reported By:</strong> ${name} – ${title}</p>
+        </div>
+      `;
+    }
+  </script>
+</body>
+</html>
